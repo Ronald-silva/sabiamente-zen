@@ -1,73 +1,71 @@
-# Welcome to your Lovable project
+# Sabiamente Zen - Seu Bem-Estar Diário
 
-## Project info
+Um aplicativo web para cuidar do seu bem-estar com check-ins diários e desafios motivacionais.
 
-**URL**: https://lovable.dev/projects/8b609843-0525-4de0-8184-d5ee2228d1d9
+## 🚀 Como executar o projeto
 
-## How can I edit this code?
+### Pré-requisitos
 
-There are several ways of editing your application.
+- Node.js (versão 18 ou superior)
+- npm ou yarn
 
-**Use Lovable**
+### Instalação
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/8b609843-0525-4de0-8184-d5ee2228d1d9) and start prompting.
+1. Clone o repositório:
+```bash
+git clone git@github.com:Ronald-silva/sabiamente-zen-daily.git
+cd sabiamente-zen-daily
+```
 
-Changes made via Lovable will be committed automatically to this repo.
+2. Instale as dependências:
+```bash
+npm install
+```
 
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+3. Execute o projeto em modo de desenvolvimento:
+```bash
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+4. Abra [http://localhost:8080](http://localhost:8080) no seu navegador.
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## 📦 Scripts disponíveis
 
-**Use GitHub Codespaces**
+- `npm run dev` - Executa o app em modo de desenvolvimento
+- `npm run build` - Cria a build de produção
+- `npm run preview` - Visualiza a build de produção localmente
+- `npm run lint` - Executa o linter
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## 🛠️ Tecnologias utilizadas
 
-## What technologies are used for this project?
+- **React** - Biblioteca para interfaces de usuário
+- **TypeScript** - Superset do JavaScript com tipagem estática
+- **Vite** - Build tool e dev server
+- **Tailwind CSS** - Framework CSS utilitário
+- **Shadcn/ui** - Componentes de UI reutilizáveis
 
-This project is built with:
+## 📁 Estrutura do projeto
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+```
+src/
+├── components/     # Componentes reutilizáveis
+├── pages/         # Páginas da aplicação
+├── hooks/         # Custom hooks
+├── lib/           # Utilitários e configurações
+└── types/         # Definições de tipos TypeScript
+```
 
-## How can I deploy this project?
+## 🚀 Deploy
 
-Simply open [Lovable](https://lovable.dev/projects/8b609843-0525-4de0-8184-d5ee2228d1d9) and click on Share -> Publish.
+Para fazer o deploy da aplicação, você pode usar qualquer plataforma de hospedagem estática como:
 
-## Can I connect a custom domain to my Lovable project?
+- Vercel
+- Netlify
+- GitHub Pages
+- Firebase Hosting
 
-Yes, you can!
+Basta executar `npm run build` e fazer upload da pasta `dist` gerada.
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+## 📄 Licença
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+Este projeto está sob a licença MIT.

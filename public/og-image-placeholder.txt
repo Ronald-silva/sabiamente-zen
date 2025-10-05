@@ -1,0 +1,7 @@
+NOTA: Adicione uma imagem og-image.png (1200x630px) nesta pasta para o OpenGraph.
+
+Esta imagem será usada quando o site for compartilhado em redes sociais.
+
+Dimensões recomendadas: 1200x630 pixels
+Formato: PNG ou JPG
+Nome do arquivo: og-image.png

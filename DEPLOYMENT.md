@@ -1,200 +1,142 @@
-# 🧘 Sabiamente Zen - Guia de Implantação
+# 🚀 Guia de Deploy - Sabiamente Zen
 
-## 📋 Visão Geral
+Este guia mostra como fazer o deploy da aplicação Sabiamente Zen em diferentes plataformas.
 
-Este documento explica como implantar o **Sabiamente Zen** no Vercel (plano gratuito) e conectá-lo ao seu perfil do TikTok/Instagram.
+## 📋 Pré-requisitos
 
-## 🚀 Implantação no Vercel
+- Projeto buildado com `npm run build`
+- Conta na plataforma de deploy escolhida
 
-### Método 1: Via Lovable (Recomendado)
+## 🚀 Deploy no Vercel
 
-1. No Lovable, clique em **Share** → **Publish**
-2. Seu app será automaticamente publicado e você receberá uma URL
-3. Copie a URL para adicionar à bio das suas redes sociais
-
-### Método 2: Via GitHub + Vercel
+### Método 1: Via GitHub (Recomendado)
 
 1. **Conectar ao GitHub**
-   - No Lovable, clique em **GitHub** → **Connect to GitHub**
-   - Autorize o Lovable GitHub App
-   - Clique em **Create Repository**
+   - Faça push do seu código para um repositório no GitHub
+   - Acesse [vercel.com](https://vercel.com) e faça login
+   - Clique em "New Project"
+   - Importe seu repositório do GitHub
 
-2. **Conectar ao Vercel**
-   - Acesse [vercel.com](https://vercel.com)
-   - Faça login com sua conta GitHub
-   - Clique em **New Project**
-   - Selecione o repositório do Sabiamente Zen
-   - Clique em **Deploy**
-
-3. **Configurar o Projeto** (automático)
+2. **Configurar o projeto**
    - Framework Preset: Vite
    - Build Command: `npm run build`
    - Output Directory: `dist`
    - Install Command: `npm install`
 
-4. **Aguardar Deploy**
-   - O Vercel automaticamente fará o build e deploy
-   - Você receberá uma URL como: `sabiamente-zen.vercel.app`
+3. **Deploy automático**
+   - O Vercel fará o deploy automaticamente
+   - Cada push na branch main gerará um novo deploy
 
-## 🔗 Conectar às Redes Sociais
+### Método 2: Via CLI
 
-### TikTok
+```bash
+# Instalar Vercel CLI
+npm i -g vercel
 
-1. Acesse seu perfil no TikTok
-2. Toque em **Editar perfil**
-3. No campo **Site**, cole a URL do seu app
-4. Salve as alterações
+# Fazer login
+vercel login
 
-### Instagram
-
-1. Acesse seu perfil no Instagram
-2. Toque em **Editar perfil**
-3. No campo **Site**, cole a URL do seu app
-4. Salve as alterações
-
-### Bio Sugerida
-
-```
-✨ Seu refúgio diário de bem-estar
-🎯 Check-ins + Desafios Zen
-👇 Comece agora:
-[sua-url-aqui]
+# Deploy
+vercel --prod
 ```
 
-## 📱 Configurar PWA (Progressive Web App)
+## 🌐 Deploy no Netlify
 
-O app já está configurado como PWA. Seus usuários podem:
+### Via Interface Web
 
-### No Android (Chrome)
-1. Abrir o app no navegador
-2. Tocar no menu (⋮)
-3. Selecionar "Adicionar à tela inicial"
+1. Acesse [netlify.com](https://netlify.com)
+2. Clique em "New site from Git"
+3. Conecte seu repositório GitHub
+4. Configure:
+   - Build command: `npm run build`
+   - Publish directory: `dist`
+5. Clique em "Deploy site"
 
-### No iOS (Safari)
-1. Abrir o app no Safari
-2. Tocar no botão Compartilhar
-3. Selecionar "Adicionar à Tela de Início"
+### Via CLI
 
-## 🎨 Personalização
+```bash
+# Instalar Netlify CLI
+npm install -g netlify-cli
 
-### Alterar Cores
+# Login
+netlify login
 
-Edite o arquivo `src/index.css` nas variáveis CSS:
+# Deploy
+netlify deploy --prod --dir=dist
+```
 
-```css
-:root {
-  --primary: 204 70% 53%;  /* Azul principal */
-  --secondary: 174 62% 47%; /* Verde-água */
-  --accent: 24 95% 68%;     /* Laranja pôr do sol */
+## 🔥 Deploy no Firebase Hosting
+
+1. **Instalar Firebase CLI**
+```bash
+npm install -g firebase-tools
+```
+
+2. **Inicializar projeto**
+```bash
+firebase login
+firebase init hosting
+```
+
+3. **Configurar firebase.json**
+```json
+{
+  "hosting": {
+    "public": "dist",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
 }
 ```
 
-### Alterar Link do TikTok
-
-Edite os componentes:
-- `src/components/WelcomeScreen.tsx` (linha ~71)
-- `src/components/DailyChallenge.tsx` (linha ~125)
-
-Substitua `https://tiktok.com/@sabiamente_inspira` pelo seu perfil.
-
-### Adicionar Google Analytics
-
-1. Adicione o script no `index.html`:
-
-```html
-<!-- Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'GA_MEASUREMENT_ID');
-</script>
+4. **Deploy**
+```bash
+npm run build
+firebase deploy
 ```
 
-## 🔒 Conformidade LGPD
+## 📱 Configurações importantes
 
-✅ O app já está em conformidade:
-- Pop-up de consentimento ao primeiro acesso
-- Dados salvos apenas localmente (localStorage)
-- Disclaimer sobre não substituir atendimento profissional
-- Link para CVV (188) em casos de emergência
+### Variáveis de ambiente
 
-## 📊 Otimizações para Engajamento
+Se você usar variáveis de ambiente, configure-as na plataforma de deploy:
 
-### Horários de Pico
-- Publique conteúdo relacionado às **12h-14h** e **18h-22h**
-- O app ativa modo noturno automaticamente entre 18h-6h
+- Vercel: Project Settings → Environment Variables
+- Netlify: Site Settings → Environment Variables
+- Firebase: Use Firebase Functions para variáveis sensíveis
 
-### Hashtags Sugeridas
-- #SabiamenteZen
-- #BemEstar
-- #Superação
-- #Autocuidado
-- #SaúdeMental
-- #Motivação
+### Domínio customizado
 
-### Calls-to-Action (CTAs)
-- "Complete seu check-in diário!"
-- "Qual foi seu desafio zen hoje?"
-- "Compartilhe sua jornada de bem-estar!"
+Todas as plataformas permitem configurar domínios customizados:
 
-## 🐛 Solução de Problemas
+1. **Vercel**: Project Settings → Domains
+2. **Netlify**: Site Settings → Domain Management
+3. **Firebase**: Hosting → Connect Custom Domain
 
-### O app não carrega
-- Verifique o console do navegador (F12)
-- Confirme que o build foi bem-sucedido no Vercel
-- Limpe o cache do navegador
+## 🔧 Troubleshooting
 
-### PWA não instala
-- Certifique-se de que está usando HTTPS
-- Verifique se o `manifest.json` está acessível
-- Teste em modo anônimo primeiro
+### Erro de build
 
-### Dados não salvam
-- Verifique se o usuário aceitou o pop-up LGPD
-- Confirme que o navegador permite localStorage
-- Teste em navegador diferente
+- Verifique se todas as dependências estão no `package.json`
+- Confirme que `npm run build` funciona localmente
+- Verifique os logs de build na plataforma
 
-## 📈 Métricas para Acompanhar
+### Erro 404 em rotas
 
-1. **Taxa de Compartilhamento** (objetivo: >1,52%)
-   - Quantos usuários compartilham nos Stories
+- Configure redirects para SPA (Single Page Application)
+- Adicione arquivo `_redirects` (Netlify) ou configure no `vercel.json`
 
-2. **Retenção Diária**
-   - Usuários que voltam no dia seguinte
+### Performance
 
-3. **Desafios Completados**
-   - Taxa de conclusão dos Desafios Zen
-
-4. **Dias Consecutivos**
-   - Quantos usuários mantêm streak de 3+ dias
-
-## 🎯 Próximos Passos (Pós-MVP)
-
-1. **Monetização**
-   - eBook de bem-estar
-   - Plano premium com desafios exclusivos
-   - Consultoria personalizada
-
-2. **Features Futuras**
-   - Histórico de check-ins
-   - Gráficos de progresso
-   - Comunidade de superadores
-   - Integração com calendário
-
-3. **Marketing**
-   - Anúncios no TikTok/Instagram
-   - Parcerias com influencers de bem-estar
-   - Conteúdo semanal motivacional
-
-## 📞 Suporte
-
-Para dúvidas ou problemas:
-- 📧 Email: [seu-email]
-- 📱 Instagram: @sabiamente_inspira
-- 🎵 TikTok: @sabiamente_inspira
-
----
-
-Desenvolvido com 💙 por Sabiamente Inspira
+- Use `npm run build` para otimização automática
+- Configure cache headers na plataforma de deploy
+- Considere usar CDN para assets estáticos
