@@ -8,7 +8,7 @@ import { QuizFlow } from '@/components/QuizFlow';
 import { ProcessingScreen } from '@/components/ProcessingScreen';
 import { ResultsScreen } from '@/components/ResultsScreen';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
-import { CheckInData, WellnessReport as WellnessReportType, Challenge, UserProgress } from '@/types/wellness';
+import { CheckInData, WellnessReport as WellnessReportType, Challenge, UserProgress, ClinicalResult } from '@/types/wellness';
 import { analyzeWellness, generateChallenge } from '@/utils/wellnessAnalysis';
 
 type Screen = 'welcome' | 'checkin' | 'report' | 'challenge' | 'quiz' | 'processing' | 'results';
@@ -18,6 +18,7 @@ const Index = () => {
   const [currentReport, setCurrentReport] = useState<WellnessReportType | null>(null);
   const [currentChallenge, setCurrentChallenge] = useState<Challenge | null>(null);
   const [quizResult, setQuizResult] = useState<'anxiety' | 'burnout' | 'depression' | 'balanced' | null>(null);
+  const [clinicalResult, setClinicalResult] = useState<ClinicalResult | null>(null);
   
   const [checkIns, setCheckIns] = useLocalStorage<CheckInData[]>('sabiamente-checkins', []);
   const [challenges, setChallenges] = useLocalStorage<Challenge[]>('sabiamente-challenges', []);
@@ -100,10 +101,12 @@ const Index = () => {
     setCurrentReport(null);
     setCurrentChallenge(null);
     setQuizResult(null);
+    setClinicalResult(null);
   };
 
-  const handleQuizComplete = (result: 'anxiety' | 'burnout' | 'depression' | 'balanced') => {
+  const handleQuizComplete = (result: 'anxiety' | 'burnout' | 'depression' | 'balanced', clinical?: ClinicalResult) => {
     setQuizResult(result);
+    setClinicalResult(clinical || null);
     setCurrentScreen('processing');
   };
 
@@ -128,7 +131,7 @@ const Index = () => {
       )}
 
       {currentScreen === 'results' && quizResult && (
-        <ResultsScreen result={quizResult} />
+        <ResultsScreen result={quizResult} clinicalResult={clinicalResult} />
       )}
       
       {currentScreen === 'checkin' && (

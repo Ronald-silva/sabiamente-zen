@@ -1,92 +1,105 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
+import { calculateClinicalResults } from '@/utils/clinicalAnalysis';
 
 interface QuizFlowProps {
-  onComplete: (result: 'anxiety' | 'burnout' | 'depression' | 'balanced') => void;
+  onComplete: (result: 'anxiety' | 'burnout' | 'depression' | 'balanced', clinicalResult?: any) => void;
 }
 
 interface Question {
   id: number;
   text: string;
   type: 'anxiety' | 'burnout' | 'depression';
+  protocol: 'GAD-7' | 'PHQ-9' | 'MBI';
 }
 
+/**
+ * Perguntas baseadas em protocolos clínicos validados:
+ * - GAD-7: 7 perguntas sobre ansiedade (Spitzer et al., 2006)
+ * - PHQ-9: 9 perguntas sobre depressão (Kroenke et al., 2001)
+ * - MBI: 6 perguntas sobre burnout (Maslach & Jackson, 1981) - versão simplificada
+ */
 const questions: Question[] = [
-  // Anxiety (1-4)
-  { id: 1, text: "Você se sente nervoso(a), ansioso(a) ou com os nervos à flor da pele?", type: 'anxiety' },
-  { id: 2, text: "Você não consegue parar de se preocupar ou controlar a preocupação?", type: 'anxiety' },
-  { id: 3, text: "Você se preocupa muito com coisas diferentes?", type: 'anxiety' },
-  { id: 4, text: "Você tem dificuldade para relaxar?", type: 'anxiety' },
+  // GAD-7 - Ansiedade (7 perguntas)
+  { id: 1, text: "Nas últimas 2 semanas, com que frequência você se sentiu nervoso(a), ansioso(a) ou com os nervos à flor da pele?", type: 'anxiety', protocol: 'GAD-7' },
+  { id: 2, text: "Nas últimas 2 semanas, com que frequência você não conseguiu parar de se preocupar ou controlar a preocupação?", type: 'anxiety', protocol: 'GAD-7' },
+  { id: 3, text: "Nas últimas 2 semanas, com que frequência você se preocupou demais com coisas diferentes?", type: 'anxiety', protocol: 'GAD-7' },
+  { id: 4, text: "Nas últimas 2 semanas, com que frequência você teve dificuldade para relaxar?", type: 'anxiety', protocol: 'GAD-7' },
+  { id: 5, text: "Nas últimas 2 semanas, com que frequência você ficou tão inquieto(a) que ficou difícil ficar sentado(a) parado(a)?", type: 'anxiety', protocol: 'GAD-7' },
+  { id: 6, text: "Nas últimas 2 semanas, com que frequência você se irritou ou ficou incomodado(a) facilmente?", type: 'anxiety', protocol: 'GAD-7' },
+  { id: 7, text: "Nas últimas 2 semanas, com que frequência você sentiu medo, como se algo terrível fosse acontecer?", type: 'anxiety', protocol: 'GAD-7' },
   
-  // Burnout (5-8)
-  { id: 5, text: "Você se sente exausto(a) emocionalmente pelo seu trabalho ou atividades?", type: 'burnout' },
-  { id: 6, text: "Você se sente 'acabado(a)' ao final de um dia de trabalho?", type: 'burnout' },
-  { id: 7, text: "Você se sente cansado(a) quando se levanta pela manhã e tem que encarar outro dia de trabalho?", type: 'burnout' },
-  { id: 8, text: "Você sente que está trabalhando demais no seu emprego?", type: 'burnout' },
-
-  // Depression (9-12)
-  { id: 9, text: "Você tem pouco interesse ou prazer em fazer as coisas?", type: 'depression' },
-  { id: 10, text: "Você se sente para baixo, deprimido(a) ou sem esperança?", type: 'depression' },
-  { id: 11, text: "Você tem dificuldade para pegar no sono ou permanecer dormindo, ou dorme demais?", type: 'depression' },
-  { id: 12, text: "Você se sente cansado(a) ou com pouca energia?", type: 'depression' }
+  // PHQ-9 - Depressão (9 perguntas)
+  { id: 8, text: "Nas últimas 2 semanas, com que frequência você teve pouco interesse ou prazer em fazer as coisas?", type: 'depression', protocol: 'PHQ-9' },
+  { id: 9, text: "Nas últimas 2 semanas, com que frequência você se sentiu para baixo, deprimido(a) ou sem esperança?", type: 'depression', protocol: 'PHQ-9' },
+  { id: 10, text: "Nas últimas 2 semanas, com que frequência você teve dificuldade para pegar no sono ou permanecer dormindo, ou dormiu demais?", type: 'depression', protocol: 'PHQ-9' },
+  { id: 11, text: "Nas últimas 2 semanas, com que frequência você se sentiu cansado(a) ou com pouca energia?", type: 'depression', protocol: 'PHQ-9' },
+  { id: 12, text: "Nas últimas 2 semanas, com que frequência você teve pouco apetite ou comeu demais?", type: 'depression', protocol: 'PHQ-9' },
+  { id: 13, text: "Nas últimas 2 semanas, com que frequência você se sentiu mal consigo mesmo(a) - ou sentiu que é um(a) fracassado(a) ou que decepcionou a si mesmo(a) ou sua família?", type: 'depression', protocol: 'PHQ-9' },
+  { id: 14, text: "Nas últimas 2 semanas, com que frequência você teve dificuldade para se concentrar em coisas como ler o jornal ou assistir televisão?", type: 'depression', protocol: 'PHQ-9' },
+  { id: 15, text: "Nas últimas 2 semanas, com que frequência você se moveu ou falou tão devagar que outras pessoas poderiam ter notado? Ou o contrário - você ficou tão inquieto(a) ou agitado(a) que se moveu muito mais do que o habitual?", type: 'depression', protocol: 'PHQ-9' },
+  { id: 16, text: "Nas últimas 2 semanas, com que frequência você pensou que seria melhor estar morto(a) ou pensou em se machucar de alguma forma?", type: 'depression', protocol: 'PHQ-9' },
+  
+  // MBI - Burnout (6 perguntas - versão simplificada)
+  { id: 17, text: "Nas últimas 2 semanas, com que frequência você se sentiu emocionalmente esgotado(a) pelo seu trabalho ou atividades?", type: 'burnout', protocol: 'MBI' },
+  { id: 18, text: "Nas últimas 2 semanas, com que frequência você se sentiu 'acabado(a)' ao final de um dia de trabalho?", type: 'burnout', protocol: 'MBI' },
+  { id: 19, text: "Nas últimas 2 semanas, com que frequência você se sentiu cansado(a) quando se levantou pela manhã e teve que encarar outro dia de trabalho?", type: 'burnout', protocol: 'MBI' },
+  { id: 20, text: "Nas últimas 2 semanas, com que frequência você sentiu que está trabalhando demais?", type: 'burnout', protocol: 'MBI' },
+  { id: 21, text: "Nas últimas 2 semanas, com que frequência você se sentiu frustrado(a) com seu trabalho ou atividades?", type: 'burnout', protocol: 'MBI' },
+  { id: 22, text: "Nas últimas 2 semanas, com que frequência você sentiu que está trabalhando muito duro?", type: 'burnout', protocol: 'MBI' },
 ];
 
 const options = [
   { label: "Nunca", value: 0 },
-  { label: "Raramente", value: 1 },
-  { label: "Às vezes", value: 2 },
-  { label: "Frequentemente", value: 3 }
+  { label: "Vários dias", value: 1 },
+  { label: "Mais da metade dos dias", value: 2 },
+  { label: "Quase todos os dias", value: 3 }
 ];
 
 export const QuizFlow = ({ onComplete }: QuizFlowProps) => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [scores, setScores] = useState({ anxiety: 0, burnout: 0, depression: 0 });
+  const [responses, setResponses] = useState<number[]>(new Array(22).fill(0));
 
   const handleAnswer = (points: number) => {
-    const currentQuestion = questions[currentQuestionIndex];
-    
-    // Update score for current question type
-    const newScores = {
-      ...scores,
-      [currentQuestion.type]: scores[currentQuestion.type] + points
-    };
-    setScores(newScores);
+    const newResponses = [...responses];
+    newResponses[currentQuestionIndex] = points;
+    setResponses(newResponses);
 
     if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex(prev => prev + 1);
     } else {
-      // Calculate winner
-      const { anxiety, burnout, depression } = newScores;
-      const totalScore = anxiety + burnout + depression;
+      // Todas as perguntas respondidas - calcular resultados clínicos
+      const anxietyResponses = newResponses.slice(0, 7); // GAD-7: primeiras 7
+      const depressionResponses = newResponses.slice(7, 16); // PHQ-9: próximas 9
+      const burnoutResponses = newResponses.slice(16, 22); // MBI: últimas 6
 
-      // Logic Fix: Check for "Balanced" profile first (Total < 12)
-      // User requested threshold increase to avoid pathologizing low scores
-      if (totalScore < 12) {
+      try {
+        const clinicalResult = calculateClinicalResults(
+          anxietyResponses,
+          depressionResponses,
+          burnoutResponses
+        );
+
+        // Passa o resultado primário e o resultado clínico completo
+        onComplete(clinicalResult.primaryCondition, clinicalResult);
+      } catch (error) {
+        console.error('Erro ao calcular resultados clínicos:', error);
+        // Fallback para balanced em caso de erro
         onComplete('balanced');
-        return;
       }
-
-      // Find maximum score
-      const maxScore = Math.max(anxiety, burnout, depression);
-      
-      // Tie-breaking Logic: Priority is Depression > Burnout > Anxiety
-      let result: 'anxiety' | 'burnout' | 'depression' = 'anxiety';
-
-      if (depression === maxScore) {
-        result = 'depression';
-      } else if (burnout === maxScore) {
-        result = 'burnout';
-      } else {
-        result = 'anxiety';
-      }
-
-      onComplete(result);
     }
   };
 
   const currentQuestion = questions[currentQuestionIndex];
   const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
+
+  // Mostrar qual protocolo está sendo usado
+  const getProtocolInfo = () => {
+    if (currentQuestionIndex < 7) return 'GAD-7 - Ansiedade';
+    if (currentQuestionIndex < 16) return 'PHQ-9 - Depressão';
+    return 'MBI - Burnout';
+  };
 
   return (
     <div className="min-h-screen bg-gradient-calm flex flex-col items-center justify-center p-6">
@@ -99,9 +112,14 @@ export const QuizFlow = ({ onComplete }: QuizFlowProps) => {
           />
         </div>
 
-        {/* Question Counter */}
-        <div className="text-sm text-muted-foreground font-medium uppercase tracking-wider">
-          Pergunta {currentQuestionIndex + 1} de {questions.length}
+        {/* Question Counter and Protocol */}
+        <div className="flex justify-between items-center">
+          <div className="text-sm text-muted-foreground font-medium uppercase tracking-wider">
+            Pergunta {currentQuestionIndex + 1} de {questions.length}
+          </div>
+          <div className="text-xs text-primary font-medium bg-primary/10 px-2 py-1 rounded">
+            {getProtocolInfo()}
+          </div>
         </div>
 
         {/* Question Card */}
@@ -131,13 +149,22 @@ export const QuizFlow = ({ onComplete }: QuizFlowProps) => {
 
         <div className="text-center">
           <button 
-            onClick={() => currentQuestionIndex > 0 && setCurrentQuestionIndex(prev => prev - 1)}
+            onClick={() => {
+              if (currentQuestionIndex > 0) {
+                setCurrentQuestionIndex(prev => prev - 1);
+              }
+            }}
             className={`text-sm text-muted-foreground hover:text-primary flex items-center justify-center gap-2 mx-auto transition-colors ${currentQuestionIndex === 0 ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
           >
             <ArrowLeft className="w-4 h-4" />
             Voltar para anterior
           </button>
         </div>
+
+        {/* Disclaimer */}
+        <p className="text-xs text-center text-muted-foreground/70 mt-4">
+          Este questionário é baseado em protocolos clínicos validados (GAD-7, PHQ-9, MBI) e não substitui avaliação profissional.
+        </p>
       </div>
     </div>
   );

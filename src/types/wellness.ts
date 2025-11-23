@@ -31,3 +31,27 @@ export interface UserProgress {
   badges: string[];
   lastCheckIn: string;
 }
+
+export interface ClinicalResult {
+  anxiety: {
+    score: number;
+    severity: 'minimal' | 'mild' | 'moderate' | 'moderately_severe' | 'severe';
+    maxScore: number;
+    percentage: number;
+  };
+  depression: {
+    score: number;
+    severity: 'minimal' | 'mild' | 'moderate' | 'moderately_severe' | 'severe';
+    maxScore: number;
+    percentage: number;
+  };
+  burnout: {
+    score: number;
+    severity: 'minimal' | 'mild' | 'moderate' | 'moderately_severe' | 'severe';
+    maxScore: number;
+    percentage: number;
+  };
+  primaryCondition: 'anxiety' | 'depression' | 'burnout' | 'balanced';
+  overallSeverity: 'minimal' | 'mild' | 'moderate' | 'moderately_severe' | 'severe';
+  recommendations: string[];
+}
