@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import { Sparkles, Heart, Sun } from 'lucide-react';
+import { Sparkles, Heart, Sun, Lock } from 'lucide-react';
 
 interface WelcomeScreenProps {
   onStart: () => void;
@@ -19,26 +19,26 @@ export const WelcomeScreen = ({ onStart }: WelcomeScreenProps) => {
         {/* Title */}
         <div className="space-y-3">
           <h1 className="text-4xl sm:text-5xl font-bold bg-gradient-zen bg-clip-text text-transparent">
-            Sabiamente Zen
+            Descubra a Raiz do seu Estresse
           </h1>
           <p className="text-lg text-muted-foreground">
-            Seu refúgio diário de bem-estar
+            Faça a avaliação clínica baseada em protocolos de psicologia e receba seu plano de tratamento personalizado.
           </p>
         </div>
 
         {/* Features */}
         <div className="space-y-4 pt-4">
-          <div className="flex items-center gap-3 text-left p-4 bg-card rounded-lg shadow-soft">
+          <div className="flex items-center gap-3 text-left p-4 bg-white/10 backdrop-blur-md border border-white/20 rounded-lg shadow-soft">
             <div className="p-2 bg-primary/10 rounded-full">
               <Heart className="w-5 h-5 text-primary" />
             </div>
             <div>
-              <h3 className="font-medium">Check-in Diário</h3>
-              <p className="text-sm text-muted-foreground">Avalie seu bem-estar em 2 minutos</p>
+              <h3 className="font-medium">Diagnóstico Completo</h3>
+              <p className="text-sm text-muted-foreground">Identifique se você sofre de Ansiedade, Burnout ou Depressão em 2 minutos.</p>
             </div>
           </div>
 
-          <div className="flex items-center gap-3 text-left p-4 bg-card rounded-lg shadow-soft">
+          <div className="flex items-center gap-3 text-left p-4 bg-white/10 backdrop-blur-md border border-white/20 rounded-lg shadow-soft">
             <div className="p-2 bg-secondary/10 rounded-full">
               <Sun className="w-5 h-5 text-secondary" />
             </div>
@@ -48,7 +48,7 @@ export const WelcomeScreen = ({ onStart }: WelcomeScreenProps) => {
             </div>
           </div>
 
-          <div className="flex items-center gap-3 text-left p-4 bg-card rounded-lg shadow-soft">
+          <div className="flex items-center gap-3 text-left p-4 bg-white/10 backdrop-blur-md border border-white/20 rounded-lg shadow-soft">
             <div className="p-2 bg-accent/10 rounded-full">
               <Sparkles className="w-5 h-5 text-accent" />
             </div>
@@ -60,13 +60,19 @@ export const WelcomeScreen = ({ onStart }: WelcomeScreenProps) => {
         </div>
 
         {/* CTA */}
-        <Button 
-          size="lg" 
-          className="w-full text-lg shadow-zen hover:shadow-soft transition-smooth"
-          onClick={onStart}
-        >
-          Começar Meu Check-in ✨
-        </Button>
+        <div className="space-y-2">
+          <Button 
+            size="lg" 
+            className="w-full text-lg shadow-zen hover:shadow-soft transition-smooth uppercase font-bold tracking-wide"
+            onClick={onStart}
+          >
+            INICIAR AVALIAÇÃO GRATUITA
+          </Button>
+          <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground">
+            <Lock className="w-3 h-3" />
+            <span>Seus dados estão 100% seguros</span>
+          </div>
+        </div>
 
         {/* Social Link */}
         <a 

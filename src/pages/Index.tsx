@@ -4,16 +4,20 @@ import { CheckInForm } from '@/components/CheckInForm';
 import { WellnessReport } from '@/components/WellnessReport';
 import { DailyChallenge } from '@/components/DailyChallenge';
 import { LGPDConsent } from '@/components/LGPDConsent';
+import { QuizFlow } from '@/components/QuizFlow';
+import { ProcessingScreen } from '@/components/ProcessingScreen';
+import { ResultsScreen } from '@/components/ResultsScreen';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { CheckInData, WellnessReport as WellnessReportType, Challenge, UserProgress } from '@/types/wellness';
 import { analyzeWellness, generateChallenge } from '@/utils/wellnessAnalysis';
 
-type Screen = 'welcome' | 'checkin' | 'report' | 'challenge';
+type Screen = 'welcome' | 'checkin' | 'report' | 'challenge' | 'quiz' | 'processing' | 'results';
 
 const Index = () => {
   const [currentScreen, setCurrentScreen] = useState<Screen>('welcome');
   const [currentReport, setCurrentReport] = useState<WellnessReportType | null>(null);
   const [currentChallenge, setCurrentChallenge] = useState<Challenge | null>(null);
+  const [quizResult, setQuizResult] = useState<'anxiety' | 'burnout' | 'depression' | 'balanced' | null>(null);
   
   const [checkIns, setCheckIns] = useLocalStorage<CheckInData[]>('sabiamente-checkins', []);
   const [challenges, setChallenges] = useLocalStorage<Challenge[]>('sabiamente-challenges', []);
@@ -95,6 +99,16 @@ const Index = () => {
     setCurrentScreen('welcome');
     setCurrentReport(null);
     setCurrentChallenge(null);
+    setQuizResult(null);
+  };
+
+  const handleQuizComplete = (result: 'anxiety' | 'burnout' | 'depression' | 'balanced') => {
+    setQuizResult(result);
+    setCurrentScreen('processing');
+  };
+
+  const handleProcessingComplete = () => {
+    setCurrentScreen('results');
   };
 
   return (
@@ -102,7 +116,19 @@ const Index = () => {
       <LGPDConsent />
       
       {currentScreen === 'welcome' && (
-        <WelcomeScreen onStart={() => setCurrentScreen('checkin')} />
+        <WelcomeScreen onStart={() => setCurrentScreen('quiz')} />
+      )}
+
+      {currentScreen === 'quiz' && (
+        <QuizFlow onComplete={handleQuizComplete} />
+      )}
+
+      {currentScreen === 'processing' && (
+        <ProcessingScreen onComplete={handleProcessingComplete} />
+      )}
+
+      {currentScreen === 'results' && quizResult && (
+        <ResultsScreen result={quizResult} />
       )}
       
       {currentScreen === 'checkin' && (
