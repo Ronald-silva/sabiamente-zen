@@ -249,33 +249,33 @@ function getBurnoutDescription(severity: string, score: number, maxScore: number
 
 function getAnxietyRecommendation(severity: string): string {
   const recommendations: Record<string, string> = {
-    minimal: "Continue mantendo práticas de relaxamento e exercícios regulares para prevenir aumento da ansiedade. Técnicas de mindfulness podem ser úteis como prevenção.",
-    mild: "Pratique técnicas de respiração profunda (4-7-8) e reduza consumo de cafeína. Estabeleça uma rotina de sono regular. Considere atividades físicas leves para gerenciar o estresse.",
-    moderate: "Recomendamos buscar apoio profissional para desenvolver estratégias de enfrentamento baseadas em evidências (como TCC). Técnicas de respiração diafragmática e meditação podem ajudar a reduzir sintomas. Reduza consumo de cafeína e álcool.",
-    moderately_severe: "É importante buscar avaliação profissional com psicólogo ou psiquiatra para tratamento adequado. Técnicas de respiração podem ajudar com sintomas agudos, mas não substituem tratamento profissional. Considere reduzir estressores quando possível.",
-    severe: "É fundamental buscar avaliação profissional imediatamente para tratamento adequado (pode incluir terapia e/ou medicação). Técnicas de respiração profunda podem ajudar com sintomas agudos, mas são complementares ao tratamento. Em caso de crise, ligue 188 (CVV).",
+    minimal: "Você está gerenciando bem o estresse. Continue com práticas preventivas para manter esse equilíbrio.",
+    mild: "Algumas preocupações podem estar afetando sua qualidade de vida. Com pequenos ajustes e técnicas simples, você pode melhorar significativamente.",
+    moderate: "A ansiedade está impactando seu dia a dia. Com estratégias adequadas e apoio profissional, é possível reduzir significativamente os sintomas.",
+    moderately_severe: "Os sintomas de ansiedade estão significativamente impactando sua vida. É importante buscar tratamento profissional para desenvolver estratégias eficazes.",
+    severe: "A ansiedade está causando impacto grave na sua qualidade de vida. É fundamental buscar avaliação profissional imediatamente. Em caso de crise, ligue 188 (CVV).",
   };
   return recommendations[severity] || recommendations.moderate;
 }
 
 function getDepressionRecommendation(severity: string): string {
   const recommendations: Record<string, string> = {
-    minimal: "Mantenha hábitos saudáveis de sono (7-9h), atividade física regular e exposição à luz solar. Pratique técnicas de mindfulness e gratidão diariamente para manter o bem-estar.",
-    mild: "Atividades físicas regulares (mesmo leves), exposição à luz solar e rotina de sono adequada podem ajudar significativamente. Considere buscar apoio profissional preventivo para desenvolver estratégias de enfrentamento.",
-    moderate: "Recomendamos buscar apoio profissional (psicólogo ou psiquiatra) para desenvolver estratégias de enfrentamento baseadas em evidências. Atividades físicas regulares, exposição à luz solar e pequenos passos diários fazem diferença. Não ignore os sintomas.",
-    moderately_severe: "É fundamental buscar avaliação profissional imediatamente com psicólogo ou psiquiatra. Os sintomas requerem intervenção profissional. Em caso de pensamentos autolesivos ou ideação suicida, ligue 188 (CVV) imediatamente. Você não está sozinho(a).",
-    severe: "Recomendamos buscar avaliação profissional imediatamente. Os sintomas são graves e requerem intervenção profissional urgente. Em caso de emergência, pensamentos autolesivos ou ideação suicida, ligue 188 (CVV) imediatamente. Sua vida importa e há ajuda disponível.",
+    minimal: "Você está mantendo um bom equilíbrio emocional. Continue com seus hábitos saudáveis e pratique prevenção.",
+    mild: "Alguns sintomas leves foram identificados. Com pequenos ajustes na rotina e autocuidado, você pode melhorar significativamente seu bem-estar.",
+    moderate: "Os sintomas identificados merecem atenção. Com o suporte adequado e estratégias baseadas em evidências, é possível melhorar sua qualidade de vida.",
+    moderately_severe: "Os sintomas estão impactando significativamente sua vida. É importante buscar ajuda profissional para desenvolver estratégias de enfrentamento eficazes.",
+    severe: "Os sintomas são graves e requerem atenção profissional urgente. Você não está sozinho(a) e há ajuda disponível. Em caso de emergência, ligue 188 (CVV) imediatamente.",
   };
   return recommendations[severity] || recommendations.moderate;
 }
 
 function getBurnoutRecommendation(severity: string): string {
   const recommendations: Record<string, string> = {
-    minimal: "Continue mantendo pausas regulares durante o dia e estabeleça limites claros entre trabalho e descanso. Priorize sono adequado e atividades de lazer.",
-    mild: "Implemente pausas regulares durante o dia de trabalho (técnica Pomodoro) e estabeleça rotina de desconexão após o horário de trabalho. Priorize sono e atividades que recarregam sua energia.",
-    moderate: "Priorize descanso adequado (sono de qualidade e tempo livre) e estabeleça limites claros no trabalho. Considere reduzir carga de trabalho quando possível. Implemente técnicas de gestão de tempo e aprenda a dizer 'não'.",
-    moderately_severe: "É essencial priorizar descanso imediato e reduzir carga de trabalho significativamente. Estabeleça limites rígidos entre trabalho e vida pessoal. Considere buscar apoio profissional (psicólogo ou coaching) para desenvolver estratégias de gestão de estresse e trabalho.",
-    severe: "É urgente priorizar descanso e reduzir drasticamente sua carga de trabalho. Considere licença médica se necessário. Busque apoio profissional imediatamente (psicólogo, psiquiatra ou médico do trabalho). O burnout severo pode levar a complicações físicas e mentais graves se não tratado.",
+    minimal: "Você está mantendo um bom equilíbrio entre trabalho e descanso. Continue priorizando seu bem-estar.",
+    mild: "Alguns sinais de esgotamento podem estar aparecendo. Com ajustes na rotina e limites claros, você pode prevenir o agravamento.",
+    moderate: "O esgotamento está começando a impactar sua qualidade de vida. É importante priorizar descanso e estabelecer limites no trabalho.",
+    moderately_severe: "O esgotamento está significativamente impactando sua capacidade de funcionar. É essencial reduzir carga de trabalho e buscar apoio profissional.",
+    severe: "O burnout está em nível crítico e pode levar a complicações graves se não tratado. É urgente priorizar descanso e buscar ajuda profissional imediatamente.",
   };
   return recommendations[severity] || recommendations.moderate;
 }

@@ -5,7 +5,7 @@ import "./index.css";
 createRoot(document.getElementById("root")!).render(<App />);
 
 // Register service worker for PWA
-if ('serviceWorker' in navigator) {
+if ('serviceWorker' in navigator && import.meta.env.PROD) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('/service-worker.js')
       .then((registration) => {
@@ -13,6 +13,7 @@ if ('serviceWorker' in navigator) {
       })
       .catch((registrationError) => {
         console.log('SW registration failed: ', registrationError);
+        // Não bloquear a aplicação se o SW falhar
       });
   });
 }
