@@ -102,7 +102,7 @@ export const CheckInForm = ({ onComplete, onBack }: CheckInFormProps) => {
     }
   };
 
-  const updateFormData = (field: keyof CheckInData, value: any) => {
+  const updateFormData = (field: keyof CheckInData, value: CheckInData[keyof CheckInData]) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
