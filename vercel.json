@@ -5,7 +5,15 @@
   "installCommand": "npm ci",
   "rewrites": [
     {
-      "source": "/((?!assets|manifest.json|icon-|og-image|robots.txt|service-worker.js|favicon.ico|.*\\.(js|css|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot)).*)",
+      "source": "/assets/:path*",
+      "destination": "/assets/:path*"
+    },
+    {
+      "source": "/(manifest.json|icon-*|og-image.*|robots.txt|service-worker.js|favicon.ico)",
+      "destination": "/$1"
+    },
+    {
+      "source": "/(.*)",
       "destination": "/index.html"
     }
   ]
