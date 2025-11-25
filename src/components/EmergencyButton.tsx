@@ -106,7 +106,12 @@ export const EmergencyButton = () => {
                       {resource.phone && (
                         <Button
                           size="sm"
-                          className={`${resource.color.replace('text-', 'bg-').replace('-600', '-600')} hover:opacity-90 text-white`}
+                          className={`${
+                            resource.phone === '188' ? 'bg-red-600 hover:bg-red-700' :
+                            resource.phone === '192' ? 'bg-orange-600 hover:bg-orange-700' :
+                            resource.phone === '190' ? 'bg-blue-600 hover:bg-blue-700' :
+                            'bg-primary hover:bg-primary/90'
+                          } text-white`}
                           onClick={(e) => {
                             e.stopPropagation();
                             resource.action();
