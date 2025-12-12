@@ -435,11 +435,39 @@ export const ProfileQuiz: React.FC<ProfileQuizProps> = ({
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
+            <div className="p-4 bg-yellow-50 border border-yellow-300 rounded-lg">
+              <h3 className="font-semibold text-yellow-900 mb-2 flex items-center gap-2">
+                <AlertCircle className="h-5 w-5" />
+                ⚠️ Importante
+              </h3>
+              <p className="text-sm text-yellow-800">
+                Este é um resultado de <strong>triagem</strong>, não um diagnóstico médico.
+                Consulte sempre um profissional de saúde mental qualificado.
+              </p>
+            </div>
+
             <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
-              <h3 className="font-semibold text-blue-900 mb-2">🎁 Seu Mini-Guia Personalizado</h3>
-              <p className="text-sm text-blue-800">
+              <h3 className="font-semibold text-blue-900 mb-2">🎁 Seu Mini-Guia Personalizado GRÁTIS</h3>
+              <p className="text-sm text-blue-800 mb-3">
                 Criamos um guia específico para o seu perfil com 3 técnicas cientificamente
                 comprovadas e um plano de ação de 7 dias.
+              </p>
+              <p className="text-sm text-blue-900 font-semibold">
+                📱 Para receber o PDF gratuito:
+              </p>
+              <ol className="text-sm text-blue-800 ml-4 mt-2 space-y-1">
+                <li>1. Siga @sabiamentezen no Instagram</li>
+                <li>2. O link do PDF está na BIO</li>
+                <li>3. Lá você também recebe dicas diárias!</li>
+              </ol>
+            </div>
+
+            <div className="text-center">
+              <p className="text-xs text-gray-500">
+                Ao usar este quiz, você concorda com nossa{' '}
+                <a href="/privacy" className="text-blue-600 hover:underline">
+                  Política de Privacidade
+                </a>
               </p>
             </div>
 
